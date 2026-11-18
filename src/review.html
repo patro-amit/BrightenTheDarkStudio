@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brighten the Dark · Results Studio</title>
+  <link rel="stylesheet" href="review.css?v=__STAMP__">
+  <script id="project-data" type="application/json">__PROJECT_DATA__</script>
+  <script src="review.js?v=__STAMP__" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="#images"><span class="brand-icon" aria-hidden="true">◐</span><span>Brighten the Dark<small>Results Studio</small></span></a>
+    <nav aria-label="Workspace">
+      <a href="#images" data-page="images"><span aria-hidden="true">▧</span> Image comparison</a>
+      <a href="#video" data-page="video"><span aria-hidden="true">▷</span> Video analysis</a>
+      <a href="#scores" data-page="scores"><span aria-hidden="true">▥</span> Scores and metrics</a>
+      <a href="#files" data-page="files"><span aria-hidden="true">▤</span> Result files</a>
+    </nav>
+    <div class="sidebar-footer"><span></span> Local project</div>
+  </aside>
+  <main>
+    <section id="images" class="page">
+      <header class="page-head"><div><h1>Image comparison</h1><p>Inspect the original beside any enhancement method.</p></div><a class="button secondary" href="#files">Browse results ↗</a></header>
+      <div class="image-layout">
+        <article class="panel visual-panel">
+          <div class="panel-head"><div><h2 id="image-name">Source image</h2><p id="image-settings"></p></div><label>Enhancement<select id="image-method"></select></label></div>
+          <div class="image-stage" id="image-stage">
+            <div class="compare" id="compare" style="--split:50%">
+              <img id="image-before" alt="Original image"><img id="image-after" alt="Enhanced image">
+              <span class="image-tag before-tag">Original</span><span class="image-tag after-tag">Enhanced</span>
+              <div class="divider" aria-hidden="true"><span>↔</span></div>
+              <input id="image-split" type="range" min="0" max="100" value="50" aria-label="Image comparison divider">
+            </div>
+          </div>
+          <div class="thumbnail-strip" id="image-gallery" aria-label="Test images"></div>
+        </article>
+        <aside class="panel summary-panel"><h2>Measured results</h2><p id="metric-method"></p><div id="image-metrics" class="metric-list"></div><a id="output-image" class="button secondary" href="" target="_blank" rel="noopener">Open full image ↗</a></aside>
+      </div>
+      <p id="image-empty" class="empty" hidden>Run the image experiment and rebuild this dashboard to show results.</p>
+    </section>
+    <section id="video" class="page" hidden>
+      <header class="page-head"><div><h1>Video analysis</h1><p>Compare playback and inspect frame-by-frame measurements.</p></div><a class="button secondary" href="#files">Browse results ↗</a></header>
+      <section class="panel visual-panel" id="video-panel">
+        <div class="panel-head"><label>Recorded clip<select id="video-clip"></select></label><label>Enhancement<select id="video-method"></select></label></div>
+        <div class="video-grid">
+          <figure><figcaption>Original</figcaption><video id="video-original" preload="metadata" playsinline muted></video><p id="video-no-source" class="empty" hidden>Source clip unavailable for this run.</p></figure>
+          <figure><figcaption>Enhanced</figcaption><video id="video-output" preload="metadata" playsinline muted></video></figure>
+        </div>
+        <div class="transport"><button id="video-play" type="button">▶ Play</button><label class="sr-only" for="video-seek">Playback position</label><input id="video-seek" type="range" min="0" max="1" step=".01" value="0"><output id="video-clock">0:00 / 0:00</output><button id="video-audio" class="secondary" type="button" aria-pressed="false">Sound off</button></div>
+        <p id="video-status" role="status" class="muted"></p>
+      </section>
+      <p id="video-empty" class="empty" hidden>Run the video processor and rebuild this dashboard to show a video run.</p>
+      <div id="video-results"><div class="video-metrics" id="video-metrics"></div>
+        <section class="panel chart-panel"><div class="panel-head"><div><h2>Frame timeline</h2><p>Click the chart to jump to that moment in both videos.</p></div><label>Measurement<select id="timeline-metric"><option value="2">Brightness lift</option><option value="3">Flicker</option><option value="4">Processing time</option><option value="1">Input brightness</option></select></label></div><canvas id="timeline" role="img" aria-label="Video frame timeline"></canvas><p id="frame-detail" aria-live="off"></p><div id="video-settings"></div><a id="video-csv" class="button secondary" download>Download benchmark CSV</a></section>
+      </div>
+      <section class="panel chart-panel"><div class="panel-head"><div><h2>Test a local video</h2><p>Sample brightness, shadows and highlights here. For a full enhancement benchmark, run Test Video.bat from the project folder.</p></div><label class="button secondary file-button">Choose video<input id="local-video" type="file" accept="video/*"></label></div><div class="inline-controls"><button id="local-analyze" type="button" disabled>Analyze clip</button><a id="local-export" class="button secondary" download="video_brightness.csv" hidden>Download analysis CSV</a></div><p id="local-status" role="status" class="muted">Choose a video file to begin.</p><label id="local-measure-label" class="chart-measure" hidden>Chart measurement<select id="local-measure"><option value="1">Mean brightness</option><option value="2">Shadows (%)</option><option value="3">Highlights (%)</option></select></label><canvas id="local-chart" role="img" aria-label="Sampled video measurements over time" hidden></canvas></section>
+    </section>
+    <section id="scores" class="page" hidden>
+      <header class="page-head"><div><h1>Scores and metrics</h1><p>Review image quality scores, video benchmarks, and individual frame measurements.</p></div></header>
+      <article class="panel chart-panel">
+        <div class="score-controls">
+          <label>Dataset<select id="score-dataset"></select></label>
+          <label>Filter rows<input id="score-filter" type="search" placeholder="Image, method, frame…"></label>
+          <a id="score-download" class="button secondary" download>Download CSV</a>
+        </div>
+        <p id="score-info" class="muted"></p>
+        <div id="score-table" class="table-wrap" tabindex="0" aria-label="Scrollable score table"></div>
+        <div class="score-pagination"><button id="score-prev" class="secondary">Previous</button><span id="score-page" aria-live="polite"></span><button id="score-next" class="secondary">Next</button></div>
+      </article>
+    </section>
+    <section id="files" class="page" hidden>
+      <header class="page-head"><div><h1>Result files</h1><p>Open images, videos, figures and metric tables inside the dashboard.</p></div></header>
+      <div class="files-layout">
+        <article class="panel file-browser"><div class="file-tools"><label class="sr-only" for="file-search">Search files</label><input id="file-search" type="search" placeholder="Search result files…"><label class="sr-only" for="file-type">File type</label><select id="file-type"><option value="">All types</option><option value="image">Images and figures</option><option value="video">Videos</option><option value="table">CSV tables</option><option value="document">Documents</option><option value="text">Text files</option><option value="pdf">PDFs</option></select></div><nav id="breadcrumbs" class="breadcrumbs" aria-label="Current folder"></nav><div id="file-list"></div></article>
+        <article class="panel file-preview"><div class="panel-head"><h2 id="file-heading">Preview</h2><a id="file-download" class="button secondary" download hidden>Download</a></div><div id="file-preview"><p class="empty">Choose a file to preview.</p></div></article>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

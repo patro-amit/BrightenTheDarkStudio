@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools"]
+
+[tool.pyright]
+pythonVersion = "3.10"
+typeCheckingMode = "basic"
+reportUnusedImport = "none"
+reportUnusedVariable = "none"
+reportOptionalMemberAccess = "none"
+
+[tool.pylint]
+disable = ["all"]
+
+[tool.flake8]
+ignore = ["E,F,W,C"]

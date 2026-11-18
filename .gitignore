@@ -1,0 +1,7 @@
+data/
+outputs/
+*.pdf
+*.doc
+*.docx
+__pycache__/
+*.pyc
